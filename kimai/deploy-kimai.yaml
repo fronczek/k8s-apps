@@ -60,3 +60,15 @@ spec:
         - name: var
           persistentVolumeClaim:
             claimName: kimai-var
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kimai-var
+  namespace: kimai
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests: { storage: 1Gi }
+  storageClassName: longhorn-retain
