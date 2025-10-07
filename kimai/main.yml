@@ -1,0 +1,21 @@
+project: default
+source:
+  repoURL: https://robjuz.github.io/helm-charts/
+  targetRevision: 4.3.7
+  helm:
+    values: |-
+      mariadb:
+        image:
+          registry: docker.io
+          repository: bitnamilegacy/mariadb   # or bitnami/mariadb / ghcr.io/bitnami/mariadb
+          # tag: "12.0.2-debian-12-r0"        # pick an existing tag
+          tag: "10.6.12-debian-11-r16"        # default one
+  chart: kimai2
+destination:
+  server: https://kubernetes.default.svc
+  namespace: kimai
+syncPolicy:
+  automated:
+    enabled: true
+  syncOptions:
+    - CreateNamespace=true
