@@ -54,4 +54,4 @@ spec:
               mountPath: /bitnami/mariadb
       volumes:
         - name: data
-          persistentVolumeClaim: { claimName: mariadb-data }
+          persistentVolumeClaim: { claimName: kimai-mariadb }
