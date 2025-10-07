@@ -31,8 +31,6 @@ spec:
               value: smtp-relay.mail.svc.cluster.local
             - name: POSTFIX_mynetworks
               value: "127.0.0.0/8 [::1]/128 10.0.0.0/8"
-            - name: ALLOWED_SENDER_DOMAINS
-              value: "hbf.pl hbf.management"
             - name: RELAYHOST
               valueFrom: { secretKeyRef: { name: aws-ses-smtp, key: RELAYHOST_ADDRESS } }
             - name: RELAYHOST_USERNAME
