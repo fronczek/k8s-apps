@@ -39,7 +39,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kuma-web-ui
+                name: uptime-kuma
                 port:
                   number: 3001
   tls:
