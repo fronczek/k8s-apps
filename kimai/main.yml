@@ -1,21 +1,33 @@
-project: default
-source:
-  repoURL: https://robjuz.github.io/helm-charts/
-  targetRevision: 4.3.7
-  helm:
-    values: |-
-      mariadb:
-        image:
-          registry: docker.io
-          repository: bitnamilegacy/mariadb   # or bitnami/mariadb / ghcr.io/bitnami/mariadb
-          # tag: "12.0.2-debian-12-r0"        # pick an existing tag
-          tag: "10.6.12-debian-11-r16"        # default one
-  chart: kimai2
-destination:
-  server: https://kubernetes.default.svc
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kimai2
   namespace: kimai
-syncPolicy:
-  automated:
-    enabled: true
-  syncOptions:
-    - CreateNamespace=true
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kimai
+  sources:
+    - repoURL: https://robjuz.github.io/helm-charts/
+      chart: kimai2
+      targetRevision: 4.3.7
+      helm:
+        values: |
+          ingress:
+            enabled: false
+          mariadb:
+            image:
+              registry: docker.io
+              repository: bitnamilegacy/mariadb   # or bitnami/mariadb / ghcr.io/bitnami/mariadb
+              tag: "10.6.12-debian-11-r16"        # default one
+    - repoURL: https://github.com/fronczek/k8s-apps.git
+      targetRevision: main
+      path: kimai/ingress
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
