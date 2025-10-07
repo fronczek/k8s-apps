@@ -40,7 +40,7 @@ spec:
               containerPort: 3306
           volumeMounts:
             - name: data
-              mountPath: /bitnami/mariadb/data
+              mountPath: /bitnami/mariadb
       volumes:
         - name: data
           persistentVolumeClaim: { claimName: mariadb-data }
