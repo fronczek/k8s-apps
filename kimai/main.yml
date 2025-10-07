@@ -23,7 +23,7 @@ spec:
               tag: "10.6.12-debian-11-r16"        # default one
     - repoURL: https://github.com/fronczek/k8s-apps.git
       targetRevision: main
-      path: kimai/ingress
+      path: kimai/custom
   syncPolicy:
     automated:
       enabled: true
