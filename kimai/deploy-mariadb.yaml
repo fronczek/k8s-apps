@@ -8,17 +8,29 @@ metadata:
 spec:
   replicas: 1
   selector: { matchLabels: { app: mariadb } }
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels: { app: mariadb }
     spec:
-      template:
-        spec:
-          securityContext:
-            fsGroup: 1001
-            fsgroupChangePolicy: "OnRootMismatch"
-      strategy:
-        type: Recreate
+      securityContext:
+        fsGroup: 1001
+        fsgroupChangePolicy: "OnRootMismatch"
+      initContainers:
+        - name: fix-perms
+          image: busybox:1.36
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              "sh",
+              "-c",
+              "chown -R 1001:1001 /bitnami/mariadb || true; chmod -R g+rwX /bitnami/mariadb",
+            ]
+          securityContext: { runAsUser: 0 }
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/mariadb
       containers:
         - name: mariadb
           image: docker.io/bitnamilegacy/mariadb:10.6.12-debian-11-r16
