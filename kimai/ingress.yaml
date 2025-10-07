@@ -18,6 +18,6 @@ spec:
               service:
                 name: kimai
                 port:
-                  number: 8001
+                  name: http
   tls:
     - hosts: [kimai.apps.lab1.hbf.pl]
