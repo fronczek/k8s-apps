@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kimai-config
+  namespace: kimai
+data:
+  TRUSTED_PROXIES: "nginx,localhost,127.0.0.1"
+  TRUSTED_HOSTS: ".*"
+  MAILER_FROM: "kimai@example.com"
+  MAILER_URL: "null://localhost"
+  memory_limit: "512M"

@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: kimai
+  labels: { app: mariadb }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: mariadb } }
+  template:
+    metadata:
+      labels: { app: mariadb }
+    spec:
+      containers:
+        - name: mariadb
+          image: docker.io/bitnamilegacy/mariadb:10.6.12-debian-11-r16
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: MARIADB_DATABASE   # Bitnami envs
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: DB_DATABASE } }
+            - name: MARIADB_USER
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: DB_USER } }
+            - name: MARIADB_PASSWORD
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: DB_PASSWORD } }
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: DB_ROOT_PASSWORD } }
+          ports:
+            - name: mysql
+              containerPort: 3306
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/mariadb
+      volumes:
+        - name: data
+          persistentVolumeClaim: { claimName: mariadb-data }

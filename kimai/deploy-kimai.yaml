@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kimai
+  namespace: kimai
+  labels: { app: kimai }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: kimai } }
+  template:
+    metadata:
+      labels: { app: kimai }
+    spec:
+      containers:
+        - name: web
+          image: docker.io/kimai/kimai2:apache
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DATABASE_URL
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: DATABASE_URL } }
+            - name: ADMINMAIL
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: ADMINMAIL } }
+            - name: ADMINPASS
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: ADMINPASS } }
+            - name: APP_SECRET
+              valueFrom: { secretKeyRef: { name: kimai-secrets, key: APP_SECRET } }
+            - name: TRUSTED_PROXIES
+              valueFrom: { configMapKeyRef: { name: kimai-config, key: TRUSTED_PROXIES } }
+            - name: TRUSTED_HOSTS
+              valueFrom: { configMapKeyRef: { name: kimai-config, key: TRUSTED_HOSTS } }
+            - name: MAILER_FROM
+              valueFrom: { configMapKeyRef: { name: kimai-config, key: MAILER_FROM } }
+            - name: MAILER_URL
+              valueFrom: { configMapKeyRef: { name: kimai-config, key: MAILER_URL } }
+            - name: memory_limit
+              valueFrom: { configMapKeyRef: { name: kimai-config, key: memory_limit } }
+          ports:
+            - name: http
+              containerPort: 8001   # Apache inside the image listens on 8001 and exposes as 80 via Nginx/Apache proxy; service maps to 80
+          volumeMounts:
+            - name: var
+              mountPath: /opt/kimai/var
+          readinessProbe:
+            httpGet: { path: /, port: http }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /, port: http }
+            initialDelaySeconds: 60
+            periodSeconds: 20
+      volumes:
+        - name: var
+          persistentVolumeClaim: { claimName: kimai-var }
