@@ -1,2 +1,2 @@
 # k8s-apps
-Basic apps deployment
+Basic apps for kubernetes cluster to use with ArgoCD.
