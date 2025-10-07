@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postfix-client-pod
+  namespace: postfix-relay
+spec:
+  restartPolicy: Never
+  containers:
+    - name: debian
+      image: debian:bookworm-slim
+      imagePullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      livenessProbe:
+        exec:
+          command:
+            - ls
+            - /var
+      command:
+        - /bin/sh
+        - -c
+        - |
+          apt update; apt install -y swaks telnet;
+          while true; do
+            date >> /tmp/ping.log
+            sleep 60
+          done

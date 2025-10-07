@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp
+  namespace: postfix-relay
+spec:
+  selector: { app: postfix }
+  ports:
+    - name: smtp
+      port: 25              # clients in cluster connect on plain TCP/25
+      targetPort: 587       # mapped to container’s port 587
+      protocol: TCP
+  type: ClusterIP
