@@ -12,6 +12,8 @@ spec:
     metadata:
       labels: { app: mariadb }
     spec:
+      strategy:
+        type: Recreate
       containers:
         - name: mariadb
           image: docker.io/bitnamilegacy/mariadb:10.6.12-debian-11-r16
