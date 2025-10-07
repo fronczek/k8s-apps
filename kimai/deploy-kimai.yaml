@@ -58,5 +58,5 @@ spec:
             periodSeconds: 20
       volumes:
         - name: var
-          persistentVolumeClaim: { claimName: kimai-var }
-          
+          persistentVolumeClaim:
+            claimName: kimai-var
