@@ -41,7 +41,7 @@ spec:
               service:
                 name: kuma-web-ui
                 port:
-                  name: kuma-web-ui
+                  number: 3001
 
 ---
 apiVersion: v1
