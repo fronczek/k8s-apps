@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kimai
+  namespace: kimai
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: kimai.apps.lab1.hbf.pl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kimai2
+                port:
+                  number: 8001
+  tls:
+    - hosts: [kimai.apps.lab1.hbf.pl]
