@@ -1,14 +1,14 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: kimai-mariadb
-  namespace: kimai
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests: { storage: 2Gi }
-  storageClassName: longhorn-retain
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: kimai-mariadb
+#   namespace: kimai
+# spec:
+#   accessModes: ["ReadWriteOnce"]
+#   resources:
+#     requests: { storage: 2Gi }
+#   storageClassName: longhorn-retain
 
 ---
 apiVersion: v1

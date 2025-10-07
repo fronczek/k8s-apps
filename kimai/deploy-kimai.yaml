@@ -44,7 +44,7 @@ spec:
               valueFrom: { configMapKeyRef: { name: kimai-config, key: memory_limit } }
           ports:
             - name: http
-              containerPort: 8001   # Apache inside the image listens on 8001 and exposes as 80 via Nginx/Apache proxy; service maps to 80
+              containerPort: 8001
           volumeMounts:
             - name: var
               mountPath: /opt/kimai/var
@@ -58,4 +58,5 @@ spec:
             periodSeconds: 20
       volumes:
         - name: var
-          persistentVolumeClaim: { claimName: kimai-var }
+          persistentVolumeClaim:
+            claimName: kimai-var
