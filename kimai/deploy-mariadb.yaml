@@ -23,9 +23,7 @@ spec:
           imagePullPolicy: IfNotPresent
           command:
             [
-              "sh",
-              "-c",
-              "chown -R 1001:1001 /bitnami/mariadb || true; chmod -R g+rwX /bitnami/mariadb",
+              "sh", "-c", "ls -lsa /; chown -R 1001:1001 /bitnami/mariadb || true; chmod -R g+rwX /bitnami/mariadb",
             ]
           securityContext: { runAsUser: 0 }
           volumeMounts:
