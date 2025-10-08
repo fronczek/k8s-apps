@@ -5,7 +5,7 @@ metadata:
   name: postfix-server
   namespace: postfix-relay
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels: { app: postfix }
   template:
