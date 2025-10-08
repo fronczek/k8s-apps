@@ -8,5 +8,5 @@ data:
   TRUSTED_PROXIES: "nginx,localhost,127.0.0.1"
   TRUSTED_HOSTS: ".*"
   MAILER_FROM: "kimai@example.com"
-  MAILER_URL: "null://localhost"
+  MAILER_URL: "smtp://smtp.postfix-relay.svc:25"
   memory_limit: "512M"
